@@ -1,15 +1,21 @@
 <h1>Games</h1>
 
 <div>
-  <img alt="react" src="https://skillicons.dev/icons?i=react" height="45" />
-  <img width="10" />
-  <img alt="typescript" src="https://skillicons.dev/icons?i=ts" height="45" />
+  <img alt="pnpm" src="https://skillicons.dev/icons?i=pnpm" height="45" />
   <img width="10" />
   <img alt="nodejs" src="https://skillicons.dev/icons?i=nodejs" height="45" />
   <img width="10" />
+  <img alt="react" src="https://skillicons.dev/icons?i=react" height="45" />
+  <img width="10" />
   <img alt="nextjs" src="https://skillicons.dev/icons?i=nextjs" height="45" />
   <img width="10" />
+  <img alt="typescript" src="https://skillicons.dev/icons?i=ts" height="45" />
+  <img width="10" />
   <img alt="sass" src="https://skillicons.dev/icons?i=sass" height="45" />
+  <img width="10" />
+  <img alt="prisma" src="https://skillicons.dev/icons?i=prisma" height="45" />
+  <img width="10" />
+  <img alt="postgres" src="https://skillicons.dev/icons?i=postgres" height="45" />
 </div>
 
 <br />
@@ -25,7 +31,7 @@
 
 <br />
 
-<img width="100%" src="./screenshot.webp" />
+<img width="100%" style="max-width: 1440px" src="./screenshot.webp" />
 
 <h2>BEng Thesis</h2>
 
