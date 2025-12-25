@@ -1,17 +1,17 @@
 services:
   games:
+    container_name: games
     restart: always
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: games
+    command: sh -c "npx prisma migrate deploy && pnpm start"
     ports:
       - "${PORT}:3000"
     volumes:
       - /app/node_modules
     networks:
       - postgresql_default
-    command: sh -c "npx prisma migrate deploy && pnpm start"
 
 networks:
   postgresql_default:
