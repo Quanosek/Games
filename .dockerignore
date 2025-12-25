@@ -1,0 +1,13 @@
+.git
+.DS_Store
+
+.github
+.next
+node_modules
+
+.editorconfig
+.env.example
+.prettierignore
+.prettierrc
+LICENSE
+next-env.d.ts
