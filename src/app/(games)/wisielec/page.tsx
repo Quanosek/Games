@@ -1,106 +1,102 @@
-"use client";
+'use client'
 
-import { useState, useEffect, Fragment } from "react";
-import Image from "next/image";
-import toast from "react-hot-toast";
-import TextareaAutosize from "react-textarea-autosize";
+import { useState, useEffect, Fragment } from 'react'
+import Image from 'next/image'
+import toast from 'react-hot-toast'
+import TextareaAutosize from 'react-textarea-autosize'
 
-import { GameType } from "@/utils/enums";
-import PageLayout from "@/components/wrappers/page-layout";
-import SavedGame from "@/components/saved-game";
-import styles from "./styles.module.scss";
+import { GameType } from '@/utils/enums'
+import PageLayout from '@/components/wrappers/page-layout'
+import SavedGame from '@/components/saved-game'
+import styles from './styles.module.scss'
 
 export interface DataTypes {
-  mistakes: number;
-  time: string;
-  category: string;
-  phrase: string;
+  mistakes: number
+  time: string
+  category: string
+  phrase: string
 }
 
 export default function WisielecPage() {
-  const type = GameType.WISIELEC;
+  const type = GameType.WISIELEC
 
   const emptyData: DataTypes = {
     mistakes: 10,
-    time: "2m",
-    category: "",
-    phrase: "",
-  };
+    time: '2m',
+    category: '',
+    phrase: '',
+  }
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<DataTypes[]>([emptyData]);
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, setData] = useState<DataTypes[]>([emptyData])
 
   // load game data
   useEffect(() => {
-    const localData = localStorage.getItem(type);
+    const localData = localStorage.getItem(type)
 
     if (localData) {
       try {
-        const parsed = JSON.parse(localData);
-        setData(parsed.data);
+        const parsed = JSON.parse(localData)
+        setData(parsed.data)
       } catch {
-        localStorage.removeItem(type);
-        window.location.reload();
+        localStorage.removeItem(type)
+        window.location.reload()
       }
     }
 
-    setIsLoading(false);
-  }, [type]);
+    setIsLoading(false)
+  }, [type])
 
   // save data on change
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading) return
 
-    const localData = JSON.parse(localStorage.getItem(type)!);
-    localStorage.setItem(type, JSON.stringify({ ...localData, data }));
-  }, [isLoading, data, type]);
+    const localData = JSON.parse(localStorage.getItem(type)!)
+    localStorage.setItem(type, JSON.stringify({ ...localData, data }))
+  }, [isLoading, data, type])
 
   // check if board is empty
   const emptyBoardCheck = (data: DataTypes) => {
-    return JSON.stringify(data) === JSON.stringify(emptyData);
-  };
+    return JSON.stringify(data) === JSON.stringify(emptyData)
+  }
 
   // game form component
   const MainComponent = (index: number) => {
-    const params = data[index];
-    if (!params) return null;
+    const params = data[index]
+    if (!params) return null
 
-    const wordsCount = params.phrase.trim().split(/\s+/).filter(Boolean).length;
+    const wordsCount = params.phrase.trim().split(/\s+/).filter(Boolean).length
 
-    const polishAlphabet = "aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż";
-    const vowels = "aąeęioóuy";
+    const polishAlphabet = 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż'
+    const vowels = 'aąeęioóuy'
 
     const letters = Array.from(params.phrase.toLowerCase()).filter((letter) => {
-      return polishAlphabet.includes(letter);
-    });
+      return polishAlphabet.includes(letter)
+    })
 
-    const uniqueLetters = new Set(letters);
+    const uniqueLetters = new Set(letters)
 
     const vowelsCount = Array.from(uniqueLetters).filter((letter) => {
-      return vowels.includes(letter);
-    }).length;
+      return vowels.includes(letter)
+    }).length
 
     const phraseStats = {
       wordsCount,
       uniqueLetters: uniqueLetters.size,
       vowelsCount,
       consonantsCount: uniqueLetters.size - vowelsCount,
-    };
+    }
 
     return (
       <form
         id={`${index}`}
         className={styles.form}
         onSubmit={(e) => {
-          e.preventDefault();
+          e.preventDefault()
 
-          if (!(params.category && params.phrase)) return;
+          if (!(params.category && params.phrase)) return
 
-          return open(
-            `/wisielec/board/${index + 1}`,
-            "game_window",
-            "width=960, height=540"
-          );
+          return open(`/wisielec/board/${index + 1}`, 'game_window', 'width=960, height=540')
         }}
       >
         <div className={styles.controls}>
@@ -108,41 +104,38 @@ export default function WisielecPage() {
 
           <div className={styles.buttons}>
             <button
-              type="button"
+              type='button'
               disabled={data.length === 1 && emptyBoardCheck(params)}
               onClick={() => {
                 if (!emptyBoardCheck(params)) {
                   setData((prev) => {
-                    const newData = [...prev];
-                    newData[index] = emptyData;
-                    return newData;
-                  });
+                    const newData = [...prev]
+                    newData[index] = emptyData
+                    return newData
+                  })
                 } else {
                   setData((prev) => {
-                    const newData = [...prev];
-                    if (newData.length > 1) newData.splice(index, 1);
+                    const newData = [...prev]
+                    if (newData.length > 1) newData.splice(index, 1)
 
-                    const scrollIndex =
-                      index + 1 === data.length ? data.length - 2 : "";
+                    const scrollIndex = index + 1 === data.length ? data.length - 2 : ''
 
                     setTimeout(() => {
-                      document
-                        .getElementById(scrollIndex.toString())
-                        ?.scrollIntoView({
-                          behavior: "smooth",
-                          block: "center",
-                        });
-                    }, 1);
+                      document.getElementById(scrollIndex.toString())?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                      })
+                    }, 1)
 
-                    return newData;
-                  });
+                    return newData
+                  })
                 }
               }}
             >
               <Image
-                className="icon"
-                alt="Usuń"
-                src="/icons/trashcan.svg"
+                className='icon'
+                alt='Usuń'
+                src='/icons/trashcan.svg'
                 width={20}
                 height={20}
                 draggable={false}
@@ -150,26 +143,23 @@ export default function WisielecPage() {
             </button>
 
             <button
-              type="button"
+              type='button'
               disabled={index + 1 === data.length}
               onClick={() => {
                 setData((prev) => {
-                  const newData = [...prev];
+                  const newData = [...prev]
 
-                  [newData[index], newData[index + 1]] = [
-                    newData[index + 1],
-                    newData[index],
-                  ];
+                  ;[newData[index], newData[index + 1]] = [newData[index + 1], newData[index]]
 
-                  return newData;
-                });
+                  return newData
+                })
               }}
             >
               <Image
-                style={{ rotate: "180deg" }}
-                className="icon"
-                alt="W dół"
-                src="/icons/arrow.svg"
+                style={{ rotate: '180deg' }}
+                className='icon'
+                alt='W dół'
+                src='/icons/arrow.svg'
                 width={20}
                 height={20}
                 draggable={false}
@@ -177,35 +167,32 @@ export default function WisielecPage() {
             </button>
 
             <button
-              type="button"
+              type='button'
               disabled={index === 0}
               onClick={() => {
                 setData((prev) => {
-                  const newData = [...prev];
+                  const newData = [...prev]
 
-                  [newData[index], newData[index - 1]] = [
-                    newData[index - 1],
-                    newData[index],
-                  ];
+                  ;[newData[index], newData[index - 1]] = [newData[index - 1], newData[index]]
 
-                  return newData;
-                });
+                  return newData
+                })
               }}
             >
               <Image
-                className="icon"
-                alt="W górę"
-                src="/icons/arrow.svg"
+                className='icon'
+                alt='W górę'
+                src='/icons/arrow.svg'
                 width={20}
                 height={20}
                 draggable={false}
               />
             </button>
 
-            <p>{"•"}</p>
+            <p>{'•'}</p>
 
             <button
-              type="submit"
+              type='submit'
               className={styles.presentationButton}
               disabled={!(params.category && params.phrase)}
             >
@@ -223,20 +210,20 @@ export default function WisielecPage() {
                 id={`${index}-mistakes`}
                 value={params.mistakes}
                 onChange={(e) => {
-                  const value = parseInt(e.target.value);
+                  const value = parseInt(e.target.value)
 
                   setData((prev) => {
-                    const newData = [...prev];
-                    newData[index].mistakes = value;
-                    return newData;
-                  });
+                    const newData = [...prev]
+                    newData[index].mistakes = value
+                    return newData
+                  })
                 }}
               >
-                <option value="1">1</option>
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-                <option value="15">15</option>
+                <option value='1'>1</option>
+                <option value='3'>3</option>
+                <option value='5'>5</option>
+                <option value='10'>10</option>
+                <option value='15'>15</option>
               </select>
             </label>
 
@@ -247,22 +234,22 @@ export default function WisielecPage() {
                 id={`${index}-time`}
                 value={params.time}
                 onChange={(e) => {
-                  const value = e.target.value;
+                  const value = e.target.value
 
                   setData((prev) => {
-                    const newData = [...prev];
-                    newData[index].time = value;
-                    return newData;
-                  });
+                    const newData = [...prev]
+                    newData[index].time = value
+                    return newData
+                  })
                 }}
               >
-                <option value="-1">bez limitu</option>
-                <option value="1m">1 min</option>
-                <option value="2m">2 min</option>
-                <option value="3m">3 min</option>
-                <option value="4m">4 min</option>
-                <option value="5m">5 min</option>
-                <option value="10m">10 min</option>
+                <option value='-1'>bez limitu</option>
+                <option value='1m'>1 min</option>
+                <option value='2m'>2 min</option>
+                <option value='3m'>3 min</option>
+                <option value='4m'>4 min</option>
+                <option value='5m'>5 min</option>
+                <option value='10m'>10 min</option>
               </select>
             </label>
           </div>
@@ -274,27 +261,26 @@ export default function WisielecPage() {
               <input
                 name={`${index}-category`}
                 value={params.category}
-                placeholder="Wpisz kategorię"
-                autoComplete="off"
+                placeholder='Wpisz kategorię'
+                autoComplete='off'
                 maxLength={39}
                 onChange={(e) => {
                   const value = e.target.value
                     .trimStart() // space as first character
-                    .replace(/\s\s+/g, " "); // double space
+                    .replace(/\s\s+/g, ' ') // double space
 
                   setData((prev) => {
-                    const newData = [...prev];
-                    newData[index].category = value;
-                    return newData;
-                  });
+                    const newData = [...prev]
+                    newData[index].category = value
+                    return newData
+                  })
                 }}
                 onBlur={() => {
                   setData((prev) => {
-                    const newData = [...prev];
-                    newData[index].category =
-                      newData[index].category.toUpperCase();
-                    return newData;
-                  });
+                    const newData = [...prev]
+                    newData[index].category = newData[index].category.toUpperCase()
+                    return newData
+                  })
                 }}
               />
             </label>
@@ -305,27 +291,27 @@ export default function WisielecPage() {
               <TextareaAutosize
                 name={`${index}-phrase`}
                 value={params.phrase}
-                placeholder="Wpisz hasło"
-                autoComplete="off"
+                placeholder='Wpisz hasło'
+                autoComplete='off'
                 maxLength={119}
                 onChange={(e) => {
                   const value = e.target.value
                     .trimStart() // space as first character
-                    .replace(/\s\s+/g, " ") // double space
-                    .replace(/\n/g, ""); // enters
+                    .replace(/\s\s+/g, ' ') // double space
+                    .replace(/\n/g, '') // enters
 
                   setData((prev) => {
-                    const newData = [...prev];
-                    newData[index].phrase = value;
-                    return newData;
-                  });
+                    const newData = [...prev]
+                    newData[index].phrase = value
+                    return newData
+                  })
                 }}
                 onBlur={() => {
                   setData((prev) => {
-                    const newData = [...prev];
-                    newData[index].phrase = newData[index].phrase.toUpperCase();
-                    return newData;
-                  });
+                    const newData = [...prev]
+                    newData[index].phrase = newData[index].phrase.toUpperCase()
+                    return newData
+                  })
                 }}
               />
             </label>
@@ -341,8 +327,8 @@ export default function WisielecPage() {
           </div>
         </div>
       </form>
-    );
-  };
+    )
+  }
 
   // main component render
   return (
@@ -354,7 +340,7 @@ export default function WisielecPage() {
       </h1>
 
       {isLoading && (
-        <div className="loading">
+        <div className='loading'>
           <p>Trwa ładowanie...</p>
         </div>
       )}
@@ -362,29 +348,25 @@ export default function WisielecPage() {
       <div
         className={styles.container}
         style={{
-          visibility: isLoading ? "hidden" : "visible",
-          position: "relative",
+          visibility: isLoading ? 'hidden' : 'visible',
+          position: 'relative',
           top: isLoading ? 10 : 0,
           opacity: isLoading ? 0 : 1,
-          transition: "top 150ms ease-out, opacity 200ms ease-out",
+          transition: 'top 150ms ease-out, opacity 200ms ease-out',
         }}
       >
         <button
           className={`${styles.formButton} ${styles.start}`}
           onClick={() => {
             const filteredData = data.filter((item: DataTypes) => {
-              return item.category && item.phrase;
-            });
+              return item.category && item.phrase
+            })
 
             if (filteredData.length <= 0) {
-              return toast.error("Uzupełnij co najmniej jedną planszę");
+              return toast.error('Uzupełnij co najmniej jedną planszę')
             }
 
-            return open(
-              "/wisielec/board/0",
-              "game_window",
-              "width=960, height=540"
-            );
+            return open('/wisielec/board/0', 'game_window', 'width=960, height=540')
           }}
         >
           <p>Rozpocznij grę</p>
@@ -401,23 +383,23 @@ export default function WisielecPage() {
           disabled={emptyBoardCheck(data[data.length - 1])}
           onClick={() => {
             if (data.length >= 99) {
-              return toast.error("Osiągnięto limit 99 dodanych haseł");
+              return toast.error('Osiągnięto limit 99 dodanych haseł')
             }
 
-            setData([...data, emptyData]);
+            setData([...data, emptyData])
 
             setTimeout(() => {
               document.getElementById(data.length.toString())?.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-            }, 1);
+                behavior: 'smooth',
+                block: 'center',
+              })
+            }, 1)
           }}
         >
           <Image
-            className="icon"
-            alt="+"
-            src="/icons/plus.svg"
+            className='icon'
+            alt='+'
+            src='/icons/plus.svg'
             width={16}
             height={16}
             draggable={false}
@@ -427,5 +409,5 @@ export default function WisielecPage() {
         </button>
       </div>
     </PageLayout>
-  );
+  )
 }

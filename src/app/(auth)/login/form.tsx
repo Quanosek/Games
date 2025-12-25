@@ -1,20 +1,20 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import toast from "react-hot-toast";
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { signIn } from 'next-auth/react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import toast from 'react-hot-toast'
 
-import Providers from "../providers";
+import Providers from '../providers'
 
-import { LoginUserInput, loginUserSchema } from "@/utils/zod";
-import PasswordInput from "@/components/password-input";
-import styles from "@/styles/auth.module.scss";
+import { LoginUserInput, loginUserSchema } from '@/utils/zod'
+import PasswordInput from '@/components/password-input'
+import styles from '@/styles/auth.module.scss'
 
 export default function LoginForm() {
-  const router = useRouter();
+  const router = useRouter()
 
   const {
     formState: { errors },
@@ -23,33 +23,33 @@ export default function LoginForm() {
     reset,
   } = useForm<LoginUserInput>({
     resolver: zodResolver(loginUserSchema),
-  });
+  })
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
   async function formSubmit({ email, password }: LoginUserInput) {
     try {
-      setSubmitting(true);
+      setSubmitting(true)
 
-      const response = await signIn("credentials", {
+      const response = await signIn('credentials', {
         email,
         password,
         redirect: false,
-      });
+      })
 
       if (response?.error) {
-        reset({ password: "" });
-        toast.error("Wprowadzono niepoprawny adres e-mail lub hasło");
-        console.error(response.error);
+        reset({ password: '' })
+        toast.error('Wprowadzono niepoprawny adres e-mail lub hasło')
+        console.error(response.error)
       } else {
-        router.push("/");
-        router.refresh();
+        router.push('/')
+        router.refresh()
       }
     } catch (error) {
-      toast.error("Wystąpił nieoczekiwany błąd, spróbuj ponownie");
-      console.error(error);
+      toast.error('Wystąpił nieoczekiwany błąd, spróbuj ponownie')
+      console.error(error)
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
   }
 
@@ -58,17 +58,13 @@ export default function LoginForm() {
       <form onSubmit={handleSubmit(formSubmit)}>
         <label>
           <p>E-mail</p>
-          <input {...register("email")} autoComplete="email" maxLength={65} />
+          <input {...register('email')} autoComplete='email' maxLength={65} />
           {errors.email && <span>{errors.email.message}</span>}
         </label>
 
         <label>
           <p>Hasło</p>
-          <PasswordInput
-            function={register}
-            name="password"
-            autocomplete="current-password"
-          />
+          <PasswordInput function={register} name='password' autocomplete='current-password' />
           {errors.password && <span>{errors.password.message}</span>}
         </label>
 
@@ -78,16 +74,12 @@ export default function LoginForm() {
           </button>
         </div> */}
 
-        <button
-          className={styles.submitButton}
-          type="submit"
-          disabled={submitting}
-        >
-          <p>{submitting ? "Ładowanie..." : "Zaloguj się"}</p>
+        <button className={styles.submitButton} type='submit' disabled={submitting}>
+          <p>{submitting ? 'Ładowanie...' : 'Zaloguj się'}</p>
         </button>
       </form>
 
-      <Providers redirectTo="/" />
+      <Providers redirectTo='/' />
     </div>
-  );
+  )
 }

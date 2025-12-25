@@ -1,7 +1,7 @@
-import Link from "next/link";
-import Form from "./form";
+import Link from 'next/link'
+import Form from './form'
 
-import styles from "@/styles/auth.module.scss";
+import styles from '@/styles/auth.module.scss'
 
 export default function LoginPage() {
   return (
@@ -15,8 +15,8 @@ export default function LoginPage() {
 
       <div className={styles.prompt}>
         <p>Nie posiadasz konta?</p>
-        <Link href="/register">Zarejestruj się!</Link>
+        <Link href='/register'>Zarejestruj się!</Link>
       </div>
     </>
-  );
+  )
 }

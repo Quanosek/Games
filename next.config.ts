@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   devIndicators: false,
@@ -12,12 +12,12 @@ const nextConfig: NextConfig = {
 
   images: {
     remotePatterns: [
-      { hostname: "lh3.googleusercontent.com" },
-      { hostname: "platform-lookaside.fbsbx.com" },
-      { hostname: "avatars.githubusercontent.com" },
-      { hostname: "cdn.discordapp.com" },
+      { hostname: 'lh3.googleusercontent.com' },
+      { hostname: 'platform-lookaside.fbsbx.com' },
+      { hostname: 'avatars.githubusercontent.com' },
+      { hostname: 'cdn.discordapp.com' },
     ],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig

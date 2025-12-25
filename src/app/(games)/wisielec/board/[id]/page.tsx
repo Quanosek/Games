@@ -1,12 +1,8 @@
-import Board from "./board";
-import styles from "./styles.module.scss";
+import Board from './board'
+import styles from './styles.module.scss'
 
-export default async function WisielecBoardPage({
-  params,
-}: {
-  params: Promise<{ id: number }>;
-}) {
-  const id = (await params).id;
+export default async function WisielecBoardPage({ params }: { params: Promise<{ id: number }> }) {
+  const id = (await params).id
 
   return (
     <div className={styles.board}>
@@ -18,5 +14,5 @@ export default async function WisielecBoardPage({
         </div>
       </div>
     </div>
-  );
+  )
 }

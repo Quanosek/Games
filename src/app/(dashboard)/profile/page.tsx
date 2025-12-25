@@ -1,19 +1,19 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image'
+import Link from 'next/link'
 
-import AccountProviders from "./account-providers";
-import ActionButtons from "./action-buttons";
-import SavedButton from "./saved-button";
-import UserData from "./user-data";
+import AccountProviders from './account-providers'
+import ActionButtons from './action-buttons'
+import SavedButton from './saved-button'
+import UserData from './user-data'
 
-import { auth } from "@/utils/auth";
-import { Role } from "@/utils/enums";
-import styles from "@/styles/dashboard.module.scss";
+import { auth } from '@/utils/auth'
+import { Role } from '@/utils/enums'
+import styles from '@/styles/dashboard.module.scss'
 
 export default async function ProfilePage() {
-  const session = await auth();
-  const user = session?.user;
-  const admin = user?.role === Role.ADMIN;
+  const session = await auth()
+  const user = session?.user
+  const admin = user?.role === Role.ADMIN
 
   return (
     <div className={styles.profileContainer}>
@@ -23,10 +23,10 @@ export default async function ProfilePage() {
         <div className={styles.accountInfo}>
           <Image
             style={{
-              borderColor: admin ? "var(--gold)" : "var(--white)",
+              borderColor: admin ? 'var(--gold)' : 'var(--white)',
             }}
-            alt=""
-            src={user?.image ?? "/icons/profile.svg"}
+            alt=''
+            src={user?.image ?? '/icons/profile.svg'}
             width={150}
             height={150}
             draggable={false}
@@ -35,7 +35,7 @@ export default async function ProfilePage() {
           <div className={styles.params}>
             <div>
               {admin && (
-                <Link className={styles.roleBadge} href={"/admin"}>
+                <Link className={styles.roleBadge} href={'/admin'}>
                   <p>Administrator</p>
                 </Link>
               )}
@@ -67,5 +67,5 @@ export default async function ProfilePage() {
         </div>
       </div>
     </div>
-  );
+  )
 }

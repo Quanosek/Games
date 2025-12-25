@@ -1,80 +1,76 @@
-"use client";
+'use client'
 
-import { useState, useEffect, Fragment } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import toast from "react-hot-toast";
+import { useState, useEffect, Fragment } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import toast from 'react-hot-toast'
 
-import { GameType } from "@/utils/enums";
-import PageLayout from "@/components/wrappers/page-layout";
-import SavedGame from "@/components/saved-game";
-import styles from "./styles.module.scss";
+import { GameType } from '@/utils/enums'
+import PageLayout from '@/components/wrappers/page-layout'
+import SavedGame from '@/components/saved-game'
+import styles from './styles.module.scss'
 
 export interface DataTypes {
-  category: string;
-  question: string;
-  answers: Array<{ value: string; checked: boolean }>;
+  category: string
+  question: string
+  answers: Array<{ value: string; checked: boolean }>
 }
 
 export default function PnmPage() {
-  const type = GameType.PNM;
+  const type = GameType.PNM
 
   const emptyData: DataTypes[] = new Array(2).fill({
-    category: "",
-    question: "",
-    answers: new Array(4).fill({ value: "", checked: false }),
-  });
+    category: '',
+    question: '',
+    answers: new Array(4).fill({ value: '', checked: false }),
+  })
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [data, setData] = useState<DataTypes[][]>([emptyData]);
+  const [isLoading, setIsLoading] = useState(true)
+  const [data, setData] = useState<DataTypes[][]>([emptyData])
 
   // load game data
   useEffect(() => {
-    const localData = localStorage.getItem(type);
+    const localData = localStorage.getItem(type)
 
     if (localData) {
       try {
-        const parsed = JSON.parse(localData);
-        setData(parsed.data);
+        const parsed = JSON.parse(localData)
+        setData(parsed.data)
       } catch {
-        localStorage.removeItem(type);
-        window.location.reload();
+        localStorage.removeItem(type)
+        window.location.reload()
       }
     }
 
-    setIsLoading(false);
-  }, [type]);
+    setIsLoading(false)
+  }, [type])
 
   // save data on change
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading) return
 
-    const localData = JSON.parse(localStorage.getItem(type)!);
-    localStorage.setItem(type, JSON.stringify({ ...localData, data }));
-  }, [isLoading, data, type]);
+    const localData = JSON.parse(localStorage.getItem(type)!)
+    localStorage.setItem(type, JSON.stringify({ ...localData, data }))
+  }, [isLoading, data, type])
 
   // check if board is empty
   const emptyBoardCheck = (data: DataTypes[]) => {
-    return JSON.stringify(data) === JSON.stringify(emptyData);
-  };
+    return JSON.stringify(data) === JSON.stringify(emptyData)
+  }
 
   // game form component
   const MainComponent = (i: number) => {
-    const params = data[i];
-    if (!params) return null;
+    const params = data[i]
+    if (!params) return null
 
     return (
       <form
         id={`${i}`}
         className={styles.form}
         onSubmit={(e) => {
-          e.preventDefault();
+          e.preventDefault()
 
-          return open(
-            `/pnm/board/${i + 1}`,
-            "game_window",
-            "width=960, height=540"
-          );
+          return open(`/pnm/board/${i + 1}`, 'game_window', 'width=960, height=540')
         }}
       >
         <div className={styles.controls}>
@@ -82,41 +78,38 @@ export default function PnmPage() {
 
           <div className={styles.buttons}>
             <button
-              type="button"
+              type='button'
               disabled={data.length === 1 && emptyBoardCheck(params)}
               onClick={() => {
                 if (!emptyBoardCheck(params)) {
                   setData((prev) => {
-                    const newData = [...prev];
-                    newData[i] = emptyData;
-                    return newData;
-                  });
+                    const newData = [...prev]
+                    newData[i] = emptyData
+                    return newData
+                  })
                 } else {
                   setData((prev) => {
-                    const newData = [...prev];
-                    if (newData.length > 1) newData.splice(i, 1);
+                    const newData = [...prev]
+                    if (newData.length > 1) newData.splice(i, 1)
 
-                    const scrollIndex =
-                      i + 1 === data.length ? data.length - 2 : "";
+                    const scrollIndex = i + 1 === data.length ? data.length - 2 : ''
 
                     setTimeout(() => {
-                      document
-                        .getElementById(scrollIndex.toString())
-                        ?.scrollIntoView({
-                          behavior: "smooth",
-                          block: "center",
-                        });
-                    }, 1);
+                      document.getElementById(scrollIndex.toString())?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                      })
+                    }, 1)
 
-                    return newData;
-                  });
+                    return newData
+                  })
                 }
               }}
             >
               <Image
-                className="icon"
-                alt="Usuń"
-                src="/icons/trashcan.svg"
+                className='icon'
+                alt='Usuń'
+                src='/icons/trashcan.svg'
                 width={20}
                 height={20}
                 draggable={false}
@@ -124,21 +117,21 @@ export default function PnmPage() {
             </button>
 
             <button
-              type="button"
+              type='button'
               disabled={i + 1 === data.length}
               onClick={() => {
                 setData((prev) => {
-                  const newData = [...prev];
-                  [newData[i], newData[i + 1]] = [newData[i + 1], newData[i]];
-                  return newData;
-                });
+                  const newData = [...prev]
+                  ;[newData[i], newData[i + 1]] = [newData[i + 1], newData[i]]
+                  return newData
+                })
               }}
             >
               <Image
-                style={{ rotate: "180deg" }}
-                className="icon"
-                alt="W dół"
-                src="/icons/arrow.svg"
+                style={{ rotate: '180deg' }}
+                className='icon'
+                alt='W dół'
+                src='/icons/arrow.svg'
                 width={20}
                 height={20}
                 draggable={false}
@@ -146,30 +139,30 @@ export default function PnmPage() {
             </button>
 
             <button
-              type="button"
+              type='button'
               disabled={i === 0}
               onClick={() => {
                 setData((prev) => {
-                  const newData = [...prev];
-                  [newData[i], newData[i - 1]] = [newData[i - 1], newData[i]];
-                  return newData;
-                });
+                  const newData = [...prev]
+                  ;[newData[i], newData[i - 1]] = [newData[i - 1], newData[i]]
+                  return newData
+                })
               }}
             >
               <Image
-                className="icon"
-                alt="W górę"
-                src="/icons/arrow.svg"
+                className='icon'
+                alt='W górę'
+                src='/icons/arrow.svg'
                 width={20}
                 height={20}
                 draggable={false}
               />
             </button>
 
-            <p>{"•"}</p>
+            <p>{'•'}</p>
 
             <button
-              type="submit"
+              type='submit'
               className={styles.presentationButton}
               disabled={
                 !params.every(({ category, question, answers }) => {
@@ -179,7 +172,7 @@ export default function PnmPage() {
                     answers[0].value,
                     answers[1].value,
                     answers.some((answer) => answer.checked),
-                  ].every(Boolean);
+                  ].every(Boolean)
                 })
               }
             >
@@ -198,22 +191,22 @@ export default function PnmPage() {
                   <input
                     name={`${i}-${j}-category`}
                     value={stage.category}
-                    placeholder="Wpisz kategorię"
-                    autoComplete="off"
+                    placeholder='Wpisz kategorię'
+                    autoComplete='off'
                     maxLength={25}
                     onChange={(e) => {
                       const category = e.target.value
                         .trimStart() // space as first character
-                        .replace(/\s\s/g, " "); // double space
+                        .replace(/\s\s/g, ' ') // double space
 
                       setData((prev) => {
-                        const newData = [...prev];
+                        const newData = [...prev]
                         newData[i][j] = {
                           ...newData[i][j],
                           category,
-                        };
-                        return newData;
-                      });
+                        }
+                        return newData
+                      })
                     }}
                   />
                 </label>
@@ -224,23 +217,23 @@ export default function PnmPage() {
                   <textarea
                     name={`${i}-${j}-question`}
                     value={stage.question}
-                    placeholder="Wpisz treść pytania"
-                    autoComplete="off"
+                    placeholder='Wpisz treść pytania'
+                    autoComplete='off'
                     maxLength={91}
                     onChange={(e) => {
                       const question = e.target.value
                         .trimStart() // space as first character
-                        .replace(/\s\s/g, " ") // double space
-                        .replace(/\n/g, ""); // enters
+                        .replace(/\s\s/g, ' ') // double space
+                        .replace(/\n/g, '') // enters
 
                       setData((prev) => {
-                        const newData = [...prev];
+                        const newData = [...prev]
                         newData[i][j] = {
                           ...newData[i][j],
                           question,
-                        };
-                        return newData;
-                      });
+                        }
+                        return newData
+                      })
                     }}
                   />
                 </label>
@@ -255,77 +248,71 @@ export default function PnmPage() {
                       style={{
                         // disable if prev or curr answer is empty
                         pointerEvents:
-                          k === 0 ||
-                          params[j].answers[k - 1].value ||
-                          answer.value
-                            ? "unset"
-                            : "none",
+                          k === 0 || params[j].answers[k - 1].value || answer.value
+                            ? 'unset'
+                            : 'none',
                       }}
                     >
                       <input
                         name={`${i}-${j}-${k}-answer`}
                         tabIndex={
-                          k === 0 ||
-                          params[j].answers[k - 1].value ||
-                          answer.value
-                            ? 0
-                            : -1
+                          k === 0 || params[j].answers[k - 1].value || answer.value ? 0 : -1
                         }
                         value={answer.value}
-                        placeholder={k === 0 ? "Wpisz odpowiedź" : ""}
-                        autoComplete="off"
+                        placeholder={k === 0 ? 'Wpisz odpowiedź' : ''}
+                        autoComplete='off'
                         maxLength={29}
                         onChange={(e) => {
                           const value = e.target.value
                             .trimStart() // space as first character
-                            .replace(/\s\s/g, " "); // double space
+                            .replace(/\s\s/g, ' ') // double space
 
                           setData((prev) => {
-                            const newData = [...prev];
+                            const newData = [...prev]
                             newData[i][j] = {
                               ...newData[i][j],
                               answers: newData[i][j].answers.map((answer, l) =>
                                 l === k ? { ...answer, value } : answer
                               ),
-                            };
-                            return newData;
-                          });
+                            }
+                            return newData
+                          })
                         }}
                         onBlur={(e) => {
                           if (!e.target.value) {
                             setData((prev) => {
-                              const newData = [...prev];
+                              const newData = [...prev]
                               newData[i][j].answers[k] = {
                                 ...newData[i][j].answers[k],
                                 checked: false,
-                              };
-                              return newData;
-                            });
+                              }
+                              return newData
+                            })
                           }
                         }}
                       />
 
                       <input
-                        type="radio"
+                        type='radio'
                         name={`${i}-${j}-check`}
                         checked={answer.checked}
                         tabIndex={-1}
                         style={{
                           // disable if answer is empty
-                          pointerEvents: answer.value ? "unset" : "none",
+                          pointerEvents: answer.value ? 'unset' : 'none',
                         }}
                         onChange={() => {
                           setData((prev) => {
-                            const newData = [...prev];
+                            const newData = [...prev]
                             newData[i][j] = {
                               ...newData[i][j],
                               answers: newData[i][j].answers.map((a, l) => {
                                 // find specific answer and check it
-                                return { ...a, checked: l === k };
+                                return { ...a, checked: l === k }
                               }),
-                            };
-                            return newData;
-                          });
+                            }
+                            return newData
+                          })
                         }}
                       />
                     </div>
@@ -338,21 +325,19 @@ export default function PnmPage() {
           ))}
         </div>
       </form>
-    );
-  };
+    )
+  }
 
   // main component render
   return (
     <PageLayout>
       <SavedGame type={type} data={JSON.stringify(data)} />
       <div className={styles.logo}>
-        <p onClick={() => document.getElementById("legal")?.scrollIntoView()}>
-          {"*"}
-        </p>
+        <p onClick={() => document.getElementById('legal')?.scrollIntoView()}>{'*'}</p>
 
         <Image
-          alt="Postaw na milion"
-          src="/pnm/images/logo.webp"
+          alt='Postaw na milion'
+          src='/pnm/images/logo.webp'
           width={475}
           height={314}
           draggable={false}
@@ -361,25 +346,21 @@ export default function PnmPage() {
       </div>
 
       <div className={styles.navigation}>
-        <Link href="/pnm/rules">
-          <p>{"📖 Zasady gry"}</p>
+        <Link href='/pnm/rules'>
+          <p>{'📖 Zasady gry'}</p>
         </Link>
 
         <button
           onClick={() => {
-            return open(
-              "/pnm/board/start",
-              "game_window",
-              "width=960, height=540"
-            );
+            return open('/pnm/board/start', 'game_window', 'width=960, height=540')
           }}
         >
-          <p>{"▶️ Tablica tytułowa"}</p>
+          <p>{'▶️ Tablica tytułowa'}</p>
         </button>
       </div>
 
       {isLoading && (
-        <div className="loading">
+        <div className='loading'>
           <p>Trwa ładowanie...</p>
         </div>
       )}
@@ -387,11 +368,11 @@ export default function PnmPage() {
       <div
         className={styles.container}
         style={{
-          visibility: isLoading ? "hidden" : "visible",
-          position: "relative",
+          visibility: isLoading ? 'hidden' : 'visible',
+          position: 'relative',
           top: isLoading ? 10 : 0,
           opacity: isLoading ? 0 : 1,
-          transition: "top 150ms ease-out, opacity 200ms ease-out",
+          transition: 'top 150ms ease-out, opacity 200ms ease-out',
         }}
       >
         <div className={styles.formsContainer}>
@@ -405,23 +386,23 @@ export default function PnmPage() {
           disabled={emptyBoardCheck(data[data.length - 1])}
           onClick={() => {
             if (data.length >= 99) {
-              return toast.error("Osiągnięto limit 99 dodanych etapów");
+              return toast.error('Osiągnięto limit 99 dodanych etapów')
             }
 
-            setData([...data, emptyData]);
+            setData([...data, emptyData])
 
             setTimeout(() => {
               document.getElementById(data.length.toString())?.scrollIntoView({
-                behavior: "smooth",
-                block: "center",
-              });
-            }, 1);
+                behavior: 'smooth',
+                block: 'center',
+              })
+            }, 1)
           }}
         >
           <Image
-            className="icon"
-            alt="+"
-            src="/icons/plus.svg"
+            className='icon'
+            alt='+'
+            src='/icons/plus.svg'
             width={16}
             height={16}
             draggable={false}
@@ -430,24 +411,20 @@ export default function PnmPage() {
         </button>
       </div>
 
-      <div id="legal" className={styles.legal}>
+      <div id='legal' className={styles.legal}>
         <p>
-          <b>{"*"}</b> Gra została stworzona na podstawie polskiego teleturnieju{" "}
+          <b>{'*'}</b> Gra została stworzona na podstawie polskiego teleturnieju{' '}
           <Link
-            href="https://pl.wikipedia.org/wiki/Postaw_na_milion"
-            target="_blank"
+            href='https://pl.wikipedia.org/wiki/Postaw_na_milion'
+            target='_blank'
           >{`"Postaw na milion"`}</Link>
-          , emitowanego na antenach{" "}
-          <Link
-            href="https://pl.wikipedia.org/wiki/Telewizja_Polska"
-            target="_blank"
-          >
+          , emitowanego na antenach{' '}
+          <Link href='https://pl.wikipedia.org/wiki/Telewizja_Polska' target='_blank'>
             Telewizji Polskiej
           </Link>
-          . Wszystkie prawa do emisji oraz znaki towarowe należą do ich prawnych
-          właścicieli.
+          . Wszystkie prawa do emisji oraz znaki towarowe należą do ich prawnych właścicieli.
         </p>
       </div>
     </PageLayout>
-  );
+  )
 }

@@ -5,7 +5,7 @@ export default function AdminPage() {
     <>
       <h1>Panel administratora</h1>
 
-      <p style={{ opacity: "90%" }}>Już wkrótce</p>
+      <p style={{ opacity: '90%' }}>Już wkrótce</p>
     </>
-  );
+  )
 }

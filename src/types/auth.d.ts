@@ -1,25 +1,25 @@
-import { Role } from "@/lib/enums";
+import { Role } from '@/lib/enums'
 
-declare module "next-auth" {
+declare module 'next-auth' {
   interface User {
-    username: string?;
-    password: string?;
-    role: Role;
+    username?: string
+    password?: string
+    role: Role
   }
 
   interface Game {
-    id: string;
-    userId: string;
-    type: string;
-    title: string;
-    data: string;
-    createdAt: EpochTimeStamp;
-    updatedAt: EpochTimeStamp;
+    id: string
+    userId: string
+    type: string
+    title: string
+    data: string
+    createdAt: EpochTimeStamp
+    updatedAt: EpochTimeStamp
   }
 }
 
-declare module "next-auth/jwt" {
+declare module 'next-auth/jwt' {
   interface JWT {
-    idToken?: string;
+    idToken?: string
   }
 }

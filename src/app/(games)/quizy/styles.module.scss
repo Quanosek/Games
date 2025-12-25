@@ -107,7 +107,7 @@ $form-margin: 1.25rem;
   border-bottom: 1px solid var(--black);
 
   &::before {
-    content: "";
+    content: '';
     opacity: 90%;
     position: absolute;
     top: 0;
@@ -239,7 +239,7 @@ $form-margin: 1.25rem;
       }
     }
 
-    input[type="checkbox"] {
+    input[type='checkbox'] {
       display: none;
 
       $color: #4ae05b;
