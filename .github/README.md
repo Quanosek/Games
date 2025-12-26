@@ -60,11 +60,8 @@ A comprehensive web application for displaying popular games and TV game shows o
 
 If this project has been helpful to you, you can buy me a coffee as a thank you for the work invested.
 
-<a href="https://buycoffee.to/kubaklalo#gh-dark-mode-only">
+<a href="https://buycoffee.to/kubaklalo">
   <img style="margin: 10px 0; filter:invert(1)" alt="quanosek" src="https://storagebuycoffeeprod.blob.core.windows.net/content-files/Logo/0197ef01-04a5-4ce4-a153-b11e060cf1a2.png#gh-dark-mode-only" height="32"  />
-</a>
-
-<a href="https://buycoffee.to/kubaklalo#gh-light-mode-only">
   <img style="margin: 10px 0" alt="quanosek" src="https://storagebuycoffeeprod.blob.core.windows.net/content-files/Logo/0197ef01-0531-46ad-b782-1ea5a5bca0b7.png#gh-light-mode-only" height="32"  />
 </a>
 
