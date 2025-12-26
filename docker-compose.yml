@@ -1,5 +1,6 @@
 services:
   games:
+    image: quanosek/games:latest
     container_name: games
     restart: always
     env_file:
@@ -13,10 +14,13 @@ services:
     ports:
       - "${PORT}:3000"
     volumes:
-      - /app/node_modules
+      - games_data:/app/node_modules
     networks:
       - postgresql_default
 
 networks:
   postgresql_default:
     external: true
+
+volumes:
+  games_data:
