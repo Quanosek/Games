@@ -1,4 +1,4 @@
-<h1>Games</h1>
+# Games
 
 <div>
   <img alt="pnpm" src="https://skillicons.dev/icons?i=pnpm" height="45" />
@@ -18,33 +18,54 @@
   <img alt="postgres" src="https://skillicons.dev/icons?i=postgres" height="45" />
 </div>
 
-<br />
+## 📖 Project Description
 
-<div>
-  <p>Form-based web application for displaying popular games and tv game shows on extended screen for bigger group of people or teams.</p>
+A comprehensive web application for displaying popular games and TV game shows on extended screens for larger groups of people or teams. Perfect for game nights, corporate events, and team-building activities.
 
-  <ul>
-    <li>Using <a href="https://nextjs.org/docs">Next.js</a> framework with App Router ( /app )</li>
-    <li>Build by <a href="https://pnpm.io/">pnpm</a> package manager</li>
-  </ul>
-</div>
+### ⚡ Technologies
 
-<br />
+- **Framework**: [Next.js](https://nextjs.org/docs) with App Router (`/app`)
+- **Package Manager**: [pnpm](https://pnpm.io/)
+- **Styling**: Sass/SCSS with CSS modules
+- **TypeScript**: Full application typing
+- **Database**: [Prisma](https://www.prisma.io/) ORM with [PostgreSQL](https://www.postgresql.org/)
+- **Containerization**: Docker with docker-compose
 
-<img width="100%" style="max-width: 1440px" src="./screenshot.webp" />
+### 🚀 Features
 
-<h2>BEng Thesis</h2>
+- 🎮 Multiple interactive games (Familiada, PNM, Quizy, Wisielec)
+- 👥 User accounts with game history
+- 💾 Save and resume games
+- 🔐 Secure authentication system
+- 📊 Game statistics and saved games management
+- 📱 Responsive design for all devices
+- 🎨 Interactive game boards with real-time updates
+- 🎯 Support for multiple players and teams
 
-<div>
-  <img align=center alt="Politechnika Lubelska" src="./emblem.png" height="120" />
-  <img align=center alt="University of Technology" src="./logo-white.png#gh-dark-mode-only" height="150" />
-  <img align=center alt="University of Technology" src="./logo-black.png#gh-light-mode-only" height="150" />
+###
+
+<img width="100%" style="max-width: 1440px" src="./screenshot.webp" alt="Screenshot of Games application" />
+
+## BEng Thesis
+
+<div style="display: flex; gap: 10px; align-items: center;">
+  <img alt="Politechnika Lubelska" src="./emblem.png" height="65" />
+  <img alt="University of Technology" src="./logo-white.png#gh-dark-mode-only" height="80" />
+  <img alt="University of Technology" src="./logo-black.png#gh-light-mode-only" height="80" />
 </div>
 
 <p>This is my engineering diploma project for 2025 for the Lublin University of Technology (Poland), Faculty of Electrical Engineering and Computer Science, Department of Electrical Engineering and Intelligent Technologies.</p>
 
-<h2>Support</h2>
+## ☕ Project Support
 
-<a href="https://ko-fi.com/quanosek">
-  <img alt="quanosek" src="https://cdn.ko-fi.com/cdn/kofi3.png?v=3" width="210" height="50" />
+If this project has been helpful to you, you can buy me a coffee as a thank you for the work invested.
+
+<a href="https://buycoffee.to/kubaklalo#gh-dark-mode-only">
+  <img style="margin: 10px 0; filter:invert(1)" alt="quanosek" src="https://storagebuycoffeeprod.blob.core.windows.net/content-files/Logo/0197ef01-04a5-4ce4-a153-b11e060cf1a2.png#gh-dark-mode-only" height="32"  />
 </a>
+
+<a href="https://buycoffee.to/kubaklalo#gh-light-mode-only">
+  <img style="margin: 10px 0" alt="quanosek" src="https://storagebuycoffeeprod.blob.core.windows.net/content-files/Logo/0197ef01-0531-46ad-b782-1ea5a5bca0b7.png#gh-light-mode-only" height="32"  />
+</a>
+
+Thank you for all your support! 🙏
