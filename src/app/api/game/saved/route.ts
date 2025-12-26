@@ -21,7 +21,8 @@ export async function GET(req: Request) {
     }
 
     const gamesDatabase = (await db.game.findMany({ where: { userId } })).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+      (a: { createdAt: Date }, b: { createdAt: Date }) =>
+        b.createdAt.getTime() - a.createdAt.getTime()
     )
 
     const games = []
