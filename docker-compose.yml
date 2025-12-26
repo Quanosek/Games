@@ -14,7 +14,7 @@ services:
     ports:
       - "${PORT}:3000"
     volumes:
-      - games_data:/app/node_modules
+      - data:/app/node_modules
     networks:
       - postgresql_default
 
@@ -23,4 +23,4 @@ networks:
     external: true
 
 volumes:
-  games_data:
+  data:
