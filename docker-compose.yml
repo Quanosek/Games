@@ -12,7 +12,7 @@ services:
         DATABASE_URL: ${DATABASE_URL}
     command: sh -c "pnpm exec prisma migrate deploy && pnpm start"
     ports:
-      - "${PORT}:3000"
+      - "${HOST_PORT}:3000"
     volumes:
       - data:/app/node_modules
     networks:
